@@ -1,52 +1,52 @@
 #!/usr/bin/env bash
 
 # Script to deploy smart contract to the blockchain network
-# Usage: ./deploy.sh <election|all> [rpc-url-or-name]
+# Usage: ./script/deploy.sh <election|all> <network-or-rpc-url>
 
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$ROOT"
 
-# check if .env exits and load it
+# check if .env exists and load it
 if [[ -f ".env" ]]; then
     set -a
     source ".env"
     set +a
 fi
 
-# check if required arguments are provided
+# check if target argument is provided
 TARGET="${1:-}"
 if [[ -z "$TARGET" ]]; then
-    echo "Error: No target network specified."
-    echo "Usage: $0 <election|all> [rpc-url-or-name]"
+    echo "Error: No target specified."
+    echo "Usage: $0 <election|all> <network-or-rpc-url>"
     exit 1
 fi
 
-# check for RPC URL
+# check for Network name or RPC URL
 RPC_INPUT="${2:-${RPC_URL:-}}"
 if [[ -z "$RPC_INPUT" ]]; then
-    echo "Error: No RPC URL provided. Pass an RPC URL or set RPC_URL in .env"
+    echo "Error: No RPC URL or network name provided."
     exit 1
 fi
 
+# Translate text shortcuts like "anvil" to local URLs
 if [[ "$RPC_INPUT" == "anvil" || "$RPC_INPUT" == "localhost" ]]; then
     RPC="http://127.0.0.1:8545"
 else
     RPC="$RPC_INPUT"
 fi
 
-# check for private key
-PRIVATE_KEY="${3:-${PRIVATE_KEY:-}}"
-if [[ -z "$PRIVATE_KEY" ]]; then
-    echo "Error: No private key provided. Pass a private key or set PRIVATE_KEY in .env"
+# check for private key (strictly from .env or fallback environment)
+if [[ -z "${PRIVATE_KEY:-}" ]]; then
+    echo "Error: No private key provided. Set PRIVATE_KEY in your .env file."
     exit 1
 fi
 
-# target mapping
+# target mapping - FIX: Points to Deploy instead of DeployElectionScript
 case "$TARGET" in 
     election|all)
-        SCRIPT="script/Election.s.sol:DeployElectionScript"
+        SCRIPT="script/Election.s.sol:Deploy"
         ;;
     *)
         echo "Unknown target: $TARGET"
@@ -59,11 +59,10 @@ echo "Deploying via Foundry Script..."
 echo "  Target: $TARGET"
 echo "  RPC:    $RPC"
 echo "  Script: $SCRIPT"
-
 echo ""
 
+# Trigger the deployment
 forge script "$SCRIPT" \
     --rpc-url "$RPC" \
     --private-key "$PRIVATE_KEY" \
-    --broadcast \
-
+    --broadcast
