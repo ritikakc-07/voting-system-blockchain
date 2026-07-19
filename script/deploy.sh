@@ -8,7 +8,7 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$ROOT"
 
-# check if .env exits and load it
+# check if .env exists and load it
 if [[ -f ".env" ]]; then
     set -a
     source ".env"
@@ -30,16 +30,15 @@ if [[ -z "$RPC_INPUT" ]]; then
     exit 1
 fi
 
-if [[ "$RPC_INPUT" == "anvil" || "$RPC_INPUT" == "localhost" ]]; then
+if [[ "$RPC_INPUT" == "anvil" ]]; then
     RPC="http://127.0.0.1:8545"
 else
     RPC="$RPC_INPUT"
 fi
 
 # check for private key
-PRIVATE_KEY="${3:-${PRIVATE_KEY:-}}"
-if [[ -z "$PRIVATE_KEY" ]]; then
-    echo "Error: No private key provided. Pass a private key or set PRIVATE_KEY in .env"
+if [[ -z "${PRIVATE_KEY:-}" ]]; then
+    echo "Error: No private key provided in .env"
     exit 1
 fi
 
@@ -59,11 +58,9 @@ echo "Deploying via Foundry Script..."
 echo "  Target: $TARGET"
 echo "  RPC:    $RPC"
 echo "  Script: $SCRIPT"
-
 echo ""
 
 forge script "$SCRIPT" \
     --rpc-url "$RPC" \
     --private-key "$PRIVATE_KEY" \
-    --broadcast \
-
+    --broadcast
