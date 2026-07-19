@@ -22,11 +22,11 @@ export default function HomePage() {
           </p>
         </div>
         <Link
-          href="/Voter-List"
+          href="/voter-list"
           className="px-5 py-2.5 rounded-md text-sm font-semibold text-white shrink-0"
           style={{ background: "var(--blue)" }}
         >
-          View Voter List →
+          View voter list →
         </Link>
       </div>
 
