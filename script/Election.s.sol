@@ -20,7 +20,7 @@ contract DeployElectionScript is Script {
         election = new Election();
         election.setElectionState(Election.ElectionState.Registration);
 
-        address candidateWallet = address(0x1234567890123456789012345678901234567890);
+        address candidateWallet = address(0xa0Ee7A142d267C1f36714E4a8F75612F20a79720);
         election.registerVoter(candidateWallet, "Candidate 1", "CITIZENSHIP123");
         
         (,,, bytes32 candidateVoterId, ) = election.voters(candidateWallet);
