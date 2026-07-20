@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useConnection, useConnect, useDisconnect } from "wagmi";
 import SealMark from "./SealMark";
 
 function WalletAddressModal({
@@ -81,7 +81,7 @@ function WalletAddressModal({
 }
 
 function ConnectWalletButton() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useConnection();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const [modalOpen, setModalOpen] = useState(false);

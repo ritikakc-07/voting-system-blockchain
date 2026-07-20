@@ -26,8 +26,22 @@ export default function HomePage() {
           className="px-5 py-2.5 rounded-md text-sm font-semibold text-white shrink-0"
           style={{ background: "var(--blue)" }}
         >
-          View voter list →
+          View voter list 
         </Link>
+        <Link
+      href="/voting"
+      className="px-5 py-2.5 rounded-md text-sm font-semibold text-white shrink-0"
+      style={{ background: "var(--blue)" }}
+    >
+      Vote 
+    </Link>
+    <Link
+      href="/results"
+      className="px-5 py-2.5 rounded-md text-sm font-semibold text-white shrink-0"
+      style={{ background: "var(--blue)" }}
+    >
+      Results 
+    </Link>
       </div>
 
       <div className="mt-14">

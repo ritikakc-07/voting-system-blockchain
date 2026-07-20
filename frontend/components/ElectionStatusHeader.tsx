@@ -15,6 +15,8 @@ export default function ElectionStatusHeader({
   const tabs = [
     { href: "/voter-application", label: "Apply as Voter" },
     { href: "/candidate-application", label: "Apply as Candidate" },
+    { href: "/voting", label: "Vote" },
+    { href: "/results", label: "Results" },
   ];
 
   return (
