@@ -1,7 +1,7 @@
 import { parseAbi } from "viem";
 
 // TODO: paste your deployed Anvil contract address here
-export const electionAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3" as `0x${string}`;
+export const electionAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`;
 export function isZeroAddress(addr: string) {
   return addr === "0x0000000000000000000000000000000000000000";
 }
